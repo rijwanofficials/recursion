@@ -41,23 +41,24 @@
 
 #include <bits/stdc++.h>
 using namespace std;
-void combineallletters(vector<char> temp[], string &digits, int index, vector<vector<char>> &digitMap, vector<string> &ans)
+void combineallletters(vector<char> temp, string &digits, int index, vector<vector<char>> &digitMap, vector<string> &ans)
 {
     if (index == digits.size())
     {
-        ans.push_back(temp);
+        ans.push_back(string(temp.begin(), temp.end()));
         return;
     }
     for (int i = 0; i < digitMap[digits[index] - '2'].size(); i++)
     {
-        combineallletters(temp + digitMap[digits[index] - '2'][i], digits, index + 1, digitMap, ans);
+        temp.push_back(digitMap[digits[index] - '2'][i]);
+        combineallletters(temp, digits, index + 1, digitMap, ans);
+        temp.pop_back(); // backtrack
     }
 }
 int main()
 {
     string digits;
     vector<vector<char>> digitMap;
-
     vector<string> ans;
     digitMap.push_back({'a', 'b', 'c'});
     digitMap.push_back({'d', 'e', 'f'});
